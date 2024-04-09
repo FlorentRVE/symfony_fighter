@@ -46,7 +46,7 @@ class Champion
 
     public function setPv(int $pv): static
     {
-        $this->PV = $pv;
+        $this->pv = $pv;
 
         return $this;
     }
