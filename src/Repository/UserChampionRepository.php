@@ -21,6 +21,18 @@ class UserChampionRepository extends ServiceEntityRepository
         parent::__construct($registry, UserChampion::class);
     }
 
+       public function findByUserChampionId($id): UserChampion
+   {
+       return $this->createQueryBuilder('uc')
+            ->select('uc', 'u')
+            ->leftJoin('uc.user', 'u')
+           ->andWhere('u.id = :val')
+           ->setParameter('val', $id)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
 //    /**
 //     * @return UserChampion[] Returns an array of UserChampion objects
 //     */

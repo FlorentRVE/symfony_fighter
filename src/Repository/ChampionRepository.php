@@ -21,6 +21,16 @@ class ChampionRepository extends ServiceEntityRepository
         parent::__construct($registry, Champion::class);
     }
 
+    //    public function getRandomChampion(): Champion
+    //    {
+    //        return $this->createQueryBuilder('c')
+    //         ->orderBy()
+    //         ->setMaxResults(1)
+    //         ->getQuery()
+    //         ->getResult()
+    //        ;
+    //    }
+
     //    /**
     //     * @return Champion[] Returns an array of Champion objects
     //     */

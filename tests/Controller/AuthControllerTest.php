@@ -10,10 +10,11 @@ class AuthControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('POST', '/api/register', [], [], [], json_encode([
-            'email' => 'test@gmail.com',
 
+            'email' => 'test@gmail.com',
             'password' => 'password',
             'username' => 'test',
+            
         ]));
 
         $this->assertResponseIsSuccessful();

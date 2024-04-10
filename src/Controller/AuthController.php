@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserChampion;
+use App\Repository\ChampionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class AuthController extends AbstractController
 {
     #[Route('/register', name: 'app_register', methods: ['POST'])]
-    public function register(Request $request, EntityManagerInterface $em): JsonResponse
+    public function register(Request $request, EntityManagerInterface $em, ChampionRepository $championRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $email = $data['email'];
@@ -58,6 +60,18 @@ class AuthController extends AbstractController
         $user->setPassword(password_hash($password, PASSWORD_DEFAULT));
         $user->setUsername($username);
         $user->setRoles(['ROLE_USER']);
+
+        $champions = $championRepository->findAll();
+        $randomChampion = $champions[rand(0, count($champions) - 1)];
+        $randomPv = rand(200, $randomChampion->getPv());
+        $randomPower = rand(30, $randomChampion->getPower());
+
+        $linkUserChampion = new UserChampion();
+        $linkUserChampion->setUser($user);
+        $linkUserChampion->setChampion($randomChampion);
+        $linkUserChampion->setPv($randomPv);
+        $linkUserChampion->setPower($randomPower);
+        $em->persist($linkUserChampion);
 
         $em->persist($user);
         $em->flush();
